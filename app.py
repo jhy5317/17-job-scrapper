@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from scrapper import search_incruit
+from scrapper import search_incruit, search_hrd24
 
 app = Flask(__name__)
 
@@ -12,9 +12,11 @@ def search():
     keyword = request.args.get("keyword")
     print(keyword)
 
-    jobs = search_incruit(keyword)
-    print(jobs)
-    return render_template("search.html", jobs = enumerate(jobs)) # html에서 enumerate를 사용할 수 없어서 미리 묶어서 보내기
+    incruit = search_incruit(keyword)
+    print(incruit)
+    hrd24 = search_hrd24(keyword)
+    print(hrd24)
+    return render_template("search.html", jobs1 = enumerate(incruit), jobs2 = enumerate(hrd24)) # html에서 enumerate를 사용할 수 없어서 미리 묶어서 보내기
 
 
 # @app.route('/hello')
