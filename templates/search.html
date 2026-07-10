@@ -70,6 +70,36 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <h2>사람인 검색결과입니다.</h2>
+
+      <table>
+        <thead data-theme="dark">
+          <tr>
+            <th>No</th>
+            <th>회사</th>
+            <th>공고제목</th>
+            <th>지역</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for num, job in jobs3 %}
+          <tr>
+            <td>{{ num + 1 }}</td>
+            <td>{{ job["company"] }}</td>
+            <td>
+              <a
+                href="https://www.saramin.co.kr{{ job['link'] }}"
+                target="_blank"
+                >{{ job["title"] }}</a
+              >
+            </td>
+            <td>{{ job["location"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </main>
   </body>
 </html>

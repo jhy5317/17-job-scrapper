@@ -8,18 +8,16 @@ headers = {
 # r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
 # print(r.status_code)
 
+
 def search_incruit(keyword, page = 1):
 
-    pages = 30 * (page - 1)
-
     incruit_jobs = []
-    source = "인크루트"
 
     for i in range(page):
     # 인크루트
         page = 30 * i
         url = f"https://search.incruit.com/list/search.asp?col=job&kw={keyword}&startno={page}"
-        r = requests.get(url)
+        r = requests.get(url, headers = headers)
         # print(r.text)
 
         soup = BeautifulSoup(r.text, "html.parser")
@@ -41,51 +39,85 @@ def search_incruit(keyword, page = 1):
             incruit_jobs.append(job_data)
 
     return incruit_jobs
+# incruit_jobs = [
+#     {
+#         "company": company,
+#         "title": title,
+#         "location": location,
+#         "link": link
+#      }
+# ]
 
 def search_hrd24(keyword, page = 1):
 
     hrd24_jobs = []
-    source = "고용24"
 
     for i in range(1, page + 1):
         # 고용24
         url = f"https://www.work24.go.kr/cm/f/c/0100/selectUnifySearch.do?topQuerySearchArea=tb_workinfo&topQueryData={keyword}&startCount={i}"
-        r = requests.get(url)
+        r = requests.get(url, headers = headers)
         # print(r.text)
 
         soup = BeautifulSoup(r.text, "html.parser")
         lis = soup.find("ul", class_ = "srch_list_default").find_all("li")
+        try:
 
-        for li in lis:
-            company = li.find("dl", class_ = "dl_list").find("strong", class_ = "b1_sb").text
-            title = li.find("dd").find("a").text.strip()
-            location = li.find("div", class_ = "vline_group type2 small").find_all("span", class_ = "item")[4].text.strip("근무지 ")
-            link = li.find("dd").find("a").get("href")
+            for li in lis:
+                company = li.find("dl", class_ = "dl_list").find("strong", class_ = "b1_sb").text
+                title = li.find("dd").find("a").text.strip()
+                location = li.find("div", class_ = "vline_group type2 small").find_all("span", class_ = "item")[4].text.strip("근무지 ")
+                link = li.find("dd").find("a").get("href")
 
-            job_data = {
-                "company": company,
-                "title": title,
-                "location": location,
-                "link": link
-            }
+                job_data = {
+                    "company": company,
+                    "title": title,
+                    "location": location,
+                    "link": link
+                }
+                hrd24_jobs.append(job_data)
 
-            hrd24_jobs.append(job_data)
+        except:
+            pass
+
+    print(location)
+    print(lis)
 
     return hrd24_jobs
 
 
-# url = "https://www.saramin.co.kr/zf_user/search?search_area=main&search_done=y&search_optional_item=n&searchType=search&searchword=%EA%B0%84%ED%98%B8%EC%82%AC"
-# r = requests.get(url, headers = headers)
-# print(r)
+# hrd_jobs = [
+#     {
+#         "company": company,
+#         "title": title,
+#         "location": location,
+#         "link": link
+#      }
+# ]
 
-# soup = BeautifulSoup(r.text, "html.parser")
-# lis = soup.find_all("div", class_ = "item_recruit")
+def search_saramin(keyword, page = 1):
 
-# for li in lis:
-#     company = li.find("strong", class_ = "corp_name").text
-#     # title = li.find("dd").find("a").text.strip()
-#     # location = li.find("div", class_ = "vline_group type2 small").find_all("span", class_ = "item")[4].text.strip("근무지 ")
-#     # link = li.find("dd").find("a").get("href")
+    saramin_jobs = []
 
-# print(company)
-# print(len(company))
+    url = f"https://www.saramin.co.kr/zf_user/search/recruit?search_area=main&search_done=y&search_optional_item=n&searchType=search&searchword={keyword}&recruitPage={page}&recruitSort=relation&recruitPageCount=40"
+    r = requests.get(url, headers = headers)
+    print(r)
+
+    soup = BeautifulSoup(r.text, "html.parser")
+    lis = soup.find_all("div", class_ = "item_recruit")
+
+    for li in lis:
+        company = li.find("strong", class_ = "corp_name").text.strip("\n ")
+        title = li.find("a", class_ = "data_layer").find("span").text
+        location = li.find("div", class_ = "job_condition").find("span").text
+        link = li.find("a", class_ = "data_layer").get("href")
+
+        job_data = {
+            "company": company,
+            "title": title,
+            "location": location,
+            "link": link
+        }
+
+        saramin_jobs.append(job_data)
+
+    return saramin_jobs
