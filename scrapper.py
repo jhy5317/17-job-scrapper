@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-# headers = {
-#     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Whale/4.38.386.14 Safari/537.36"
-# }
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Whale/4.38.386.14 Safari/537.36"
+}
 
 # r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
 # print(r.status_code)
@@ -13,6 +13,7 @@ def search_incruit(keyword, page = 1):
     pages = 30 * (page - 1)
 
     incruit_jobs = []
+    source = "인크루트"
 
     for i in range(page):
     # 인크루트
@@ -41,14 +42,10 @@ def search_incruit(keyword, page = 1):
 
     return incruit_jobs
 
-if __name__ == '__main__': 
-    result = search_incruit("간호사", 2)
-    print(result)
-    print(len(result))
-
 def search_hrd24(keyword, page = 1):
 
     hrd24_jobs = []
+    source = "고용24"
 
     for i in range(1, page + 1):
         # 고용24
@@ -78,10 +75,17 @@ def search_hrd24(keyword, page = 1):
 
 
 # url = "https://www.saramin.co.kr/zf_user/search?search_area=main&search_done=y&search_optional_item=n&searchType=search&searchword=%EA%B0%84%ED%98%B8%EC%82%AC"
-# r = requests.get(url)
+# r = requests.get(url, headers = headers)
 # print(r)
 
 # soup = BeautifulSoup(r.text, "html.parser")
-# lis = soup.find("div", {"id":"recruit_info_list"})#.find_all("div", class_ = "item_recruit")
+# lis = soup.find_all("div", class_ = "item_recruit")
 
-# print(lis)
+# for li in lis:
+#     company = li.find("strong", class_ = "corp_name").text
+#     # title = li.find("dd").find("a").text.strip()
+#     # location = li.find("div", class_ = "vline_group type2 small").find_all("span", class_ = "item")[4].text.strip("근무지 ")
+#     # link = li.find("dd").find("a").get("href")
+
+# print(company)
+# print(len(company))
