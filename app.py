@@ -20,9 +20,9 @@ def search():
     if keyword == "":
         return redirect('/')
 
-    incruit = search_incruit(keyword, 3)
-    hrd24 = search_hrd24(keyword, 3)
-    saramin = search_saramin(keyword, 3)
+    incruit = search_incruit(keyword, 2)
+    hrd24 = search_hrd24(keyword, 2)
+    saramin = search_saramin(keyword, 2)
 
     return render_template("search.html", jobs1 = enumerate(incruit), jobs2 = enumerate(hrd24), jobs3 = enumerate(saramin), keyword = keyword, count = (len(incruit) + len(hrd24) + len(saramin))) # html에서 enumerate를 사용할 수 없어서 미리 묶어서 보내기
 
@@ -30,9 +30,9 @@ def search():
 def download_csv():
     
     keyword = request.args.get("keyword")
-    incruit = search_incruit(keyword, 3)
-    hrd24 = search_hrd24(keyword, 3)
-    saramin = search_saramin(keyword, 3)
+    incruit = search_incruit(keyword, 2)
+    hrd24 = search_hrd24(keyword, 2)
+    saramin = search_saramin(keyword, 2)
     jobs = incruit + hrd24 + saramin
     save_to_csv(jobs)
 

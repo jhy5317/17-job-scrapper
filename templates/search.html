@@ -59,11 +59,7 @@
             <td>{{ num + 1 }}</td>
             <td>{{ job["company"] }}</td>
             <td>
-              <a
-                href="https://www.work24.go.kr{{ job['link'] }}"
-                target="_blank"
-                >{{ job["title"] }}</a
-              >
+              <a href="{{ job['link'] }}" target="_blank">{{ job["title"] }}</a>
             </td>
             <td>{{ job["location"] }}</td>
           </tr>
@@ -89,11 +85,7 @@
             <td>{{ num + 1 }}</td>
             <td>{{ job["company"] }}</td>
             <td>
-              <a
-                href="https://www.saramin.co.kr{{ job['link'] }}"
-                target="_blank"
-                >{{ job["title"] }}</a
-              >
+              <a href="{{ job['link'] }}" target="_blank">{{ job["title"] }}</a>
             </td>
             <td>{{ job["location"] }}</td>
           </tr>
